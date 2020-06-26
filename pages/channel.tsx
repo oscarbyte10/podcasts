@@ -1,6 +1,8 @@
 import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
 import { Layout } from "../components/Layout";
+import { PodcastList } from "../components/PodcastList";
+import { ChannelGrid } from "../components/ChannelGrid";
 
 type Props = {
   channel: any;
@@ -40,36 +42,23 @@ const Channel: NextPage<Props> = ({ channel, audioClips, series }) => {
   return (
     <>
       <Layout title={channel.title}>
-        <h1>{channel.title}</h1>
-
-        {series.length > 0 && (
-          <div>
-            <h2>Series</h2>
-            <div className="channels">
-              {series.map((serie: any) => (
-                <Link href={`/channel?id=${serie.id}`} prefetch>
-                  <a className="channel">
-                    <img src={serie.urls.logo_image.original} alt="" />
-                    <h2>{serie.title}</h2>
-                  </a>
-                </Link>
-              ))}
+        <div
+          className="banner"
+          style={{
+            backgroundImage: `url(${channel.urls.banner_image.original})`,
+          }}
+        >
+          <h1>{channel.title}</h1>
+          {series.length > 0 && (
+            <div>
+              <h2>Series</h2>
+              <ChannelGrid channels={series} />
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         <h2>Last Podcasts</h2>
-
-        {audioClips.map((clip: any) => (
-          <Link href={`/podcast?id=${clip.id}`} key={clip.id}>
-            <a className="podcast">
-              <h3>{clip.title}</h3>
-              <div className="meta">
-                {Math.ceil(clip.duration / 60)} minutes
-              </div>
-            </a>
-          </Link>
-        ))}
+        <PodcastList podcasts={audioClips} />
       </Layout>
 
       <style jsx>{`
@@ -115,26 +104,6 @@ const Channel: NextPage<Props> = ({ channel, audioClips, series }) => {
           font-weight: 600;
           margin: 0;
           text-align: center;
-        }
-
-        .podcast {
-          display: block;
-          text-decoration: none;
-          color: #333;
-          padding: 15px;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-          cursor: pointer;
-        }
-        .podcast:hover {
-          color: #000;
-        }
-        .podcast h3 {
-          margin: 0;
-        }
-        .podcast .meta {
-          color: #666;
-          margin-top: 0.5em;
-          font-size: 0.8em;
         }
       `}</style>
 
