@@ -1,5 +1,6 @@
 import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
+import { Layout } from "../components/Layout";
 
 type Props = {
   channel: any;
@@ -38,34 +39,39 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 const Channel: NextPage<Props> = ({ channel, audioClips, series }) => {
   return (
     <>
-      <h1>{channel.title}</h1>
+      <Layout title={channel.title}>
+        <h1>{channel.title}</h1>
 
-      {series.length > 0 && (
-        <div>
-          <h2>Series</h2>
-          <div className="channels">
-            {series.map((serie: any) => (
-              <Link href={`/channel?id=${serie.id}`} prefetch>
-                <a className="channel">
-                  <img src={serie.urls.logo_image.original} alt="" />
-                  <h2>{serie.title}</h2>
-                </a>
-              </Link>
-            ))}
+        {series.length > 0 && (
+          <div>
+            <h2>Series</h2>
+            <div className="channels">
+              {series.map((serie: any) => (
+                <Link href={`/channel?id=${serie.id}`} prefetch>
+                  <a className="channel">
+                    <img src={serie.urls.logo_image.original} alt="" />
+                    <h2>{serie.title}</h2>
+                  </a>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <h2>Last Podcasts</h2>
+        <h2>Last Podcasts</h2>
 
-      {audioClips.map((clip: any) => (
-        <Link href={`/podcast?id=${clip.id}`} key={clip.id}>
-          <a className="podcast">
-            <h3>{clip.title}</h3>
-            <div className="meta">{Math.ceil(clip.duration / 60)} minutes</div>
-          </a>
-        </Link>
-      ))}
+        {audioClips.map((clip: any) => (
+          <Link href={`/podcast?id=${clip.id}`} key={clip.id}>
+            <a className="podcast">
+              <h3>{clip.title}</h3>
+              <div className="meta">
+                {Math.ceil(clip.duration / 60)} minutes
+              </div>
+            </a>
+          </Link>
+        ))}
+      </Layout>
+
       <style jsx>{`
         header {
           color: #fff;
