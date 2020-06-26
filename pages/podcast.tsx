@@ -1,5 +1,6 @@
 import { NextPage, GetServerSideProps } from "next";
 import Link from "next/link";
+import { Layout } from "../components/Layout";
 type Props = {
   clip: any;
 };
@@ -17,35 +18,36 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
 const Podcast: NextPage<Props> = ({ clip }) => (
   <>
-    <header>Podcasts</header>
+    <Layout title={clip.title}>
+      <div className="modal">
+        <div className="clip">
+          <nav>
+            <Link href={`/channel?id=${clip.channel.id}`}>
+              <a className="close">&lt; Volver</a>
+            </Link>
+          </nav>
 
-    <div className="modal">
-      <div className="clip">
-        <nav>
-          <Link href={`/channel?id=${clip.channel.id}`}>
-            <a className="close">&lt; Volver</a>
-          </Link>
-        </nav>
+          <picture>
+            <div
+              style={{
+                backgroundImage: `url(${
+                  clip.urls.image || clip.channel.urls.logo_image.original
+                })`,
+              }}
+            />
+          </picture>
 
-        <picture>
-          <div
-            style={{
-              backgroundImage: `url(${
-                clip.urls.image || clip.channel.urls.logo_image.original
-              })`,
-            }}
-          />
-        </picture>
-
-        <div className="player">
-          <h3>{clip.title}</h3>
-          <h6>{clip.channel.title}</h6>
-          <audio controls autoPlay={true}>
-            <source src={clip.urls.high_mp3} type="audio/mpeg" />
-          </audio>
+          <div className="player">
+            <h3>{clip.title}</h3>
+            <h6>{clip.channel.title}</h6>
+            <audio controls autoPlay={true}>
+              <source src={clip.urls.high_mp3} type="audio/mpeg" />
+            </audio>
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
+
     <style jsx>{`
       nav {
         background: none;

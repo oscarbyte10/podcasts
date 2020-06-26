@@ -19,8 +19,6 @@ const Index: NextPage<Props> = ({ channels }) => (
     <Layout title="Podcasts">
       <ChannelGrid channels={channels} />
     </Layout>
-
-    <style jsx>{``}</style>
   </>
 );
 
