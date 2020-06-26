@@ -1,6 +1,8 @@
 import { NextPage, GetServerSideProps } from "next";
-import Layout from "next";
+
 import Link from "next/link";
+
+import { Layout } from "../components/Layout";
 
 type Props = {
   channels: any;
@@ -14,30 +16,21 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const Index: NextPage<Props> = ({ channels }) => (
   <>
-    <header>Podcasts</header>
-    <section className="channels">
-      {channels.map((channel: any) => (
-        <Link href={`/channel?id=${channel.id}`} key={channel.id}>
-          <div className="channel">
-            <img src={channel.urls.logo_image.original} alt="" />
-            <h2>{channel.title}</h2>
-          </div>
-        </Link>
-      ))}
-    </section>
+    <Layout title="Podcasts">
+      <section className="channels">
+        {channels.map((channel: any) => (
+          <Link href={`/channel?id=${channel.id}`} key={channel.id}>
+            <div className="channel">
+              <img src={channel.urls.logo_image.original} alt="" />
+              <h2>{channel.title}</h2>
+            </div>
+          </Link>
+        ))}
+      </section>
+    </Layout>
 
     <style jsx>
       {`
-        :global(body) {
-          margin: 0;
-          font-family: system-ui;
-          text-align: center;
-        }
-        header {
-          color: #fff;
-          background: #8756ca;
-          padding: 15px;
-        }
         .channels {
           display: grid;
           grid-gap: 15px;
